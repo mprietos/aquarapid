@@ -63,8 +63,8 @@ public class ProductActivity extends BaseActivity {
             Product product = new Product();
             product.setCode(code);
             product.setDesc(desc);
-            product.setFoto("xxxxx");
-            product.setPrice(Double.parseDouble(price));
+            product.setFoto(image);
+            product.setPrice(Double.parseDouble(price.replace(",",".")));
 
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.show();

@@ -44,12 +44,12 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<CommonViewHol
             holder.cart.setVisibility(View.VISIBLE);
 
 
-        holder.title.setText(mValues.get(position).getCode());
+        holder.title.setText("Codigo " + mValues.get(position).getCode());
         holder.desc.setText(mValues.get(position).getDesc());
 
 
         String urlImage = mValues.get(position).getFoto();
-       // Glide.with(mContext).load(urlImage).into(holder.image);
+        Glide.with(mContext).load(urlImage).into(holder.image);
 
         holder.cart.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -80,8 +80,37 @@ public class InitActivity extends BaseActivity implements ProductListCallBack {
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSession.logoutUser();
-                startActivityForResult(new Intent(InitActivity.this, LoginActivity.class), 100);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(InitActivity.this);
+
+                builder.setTitle("Confirmar");
+                builder.setMessage("¿Estás seguro que quieres cerrar la sesión?");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+
+                        mSession.logoutUser();
+                        startActivityForResult(new Intent(InitActivity.this, LoginActivity.class), 100);
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        // Do nothing
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+                /*
+
+                */
 
             }
         });
@@ -157,9 +186,21 @@ public class InitActivity extends BaseActivity implements ProductListCallBack {
             DaoSession daoSession = ((App) getApplication()).getDaoSession();
             ItemsCartDao mDao = daoSession.getItemsCartDao();
 
-            ItemsCart itemsCart = new ItemsCart(mSession.getCIF(), product.getCode(), product.getDesc(), "aaa", product.getPrice());
-            mDao.save(itemsCart);
-            Toast.makeText(this, "Producto añadido", Toast.LENGTH_LONG).show();
+            List<ItemsCart> itemCart = mDao.queryBuilder()
+                    .where(ItemsCartDao.Properties.Code.eq(product.getCode())).list();
+            ItemsCart itemsCart;
+            if (itemCart.size() == 0) {
+                itemsCart = new ItemsCart(mSession.getCIF(), product.getCode(), product.getDesc(), product.getFoto(), product.getPrice(), 1);
+                mDao.save(itemsCart);
+
+            }else{
+                itemsCart = itemCart.get(0);
+                itemsCart.setQty(itemsCart.getQty()+1);
+                mDao.update(itemsCart);
+            }
+
+
+            Toast.makeText(this, "Producto añadido al carrito", Toast.LENGTH_LONG).show();
         }
 
 

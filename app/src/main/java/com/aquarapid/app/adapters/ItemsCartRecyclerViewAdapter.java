@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 
-public class ItemsCartRecyclerViewAdapter extends RecyclerView.Adapter<CommonViewHolder<Product>> {
+public class ItemsCartRecyclerViewAdapter extends RecyclerView.Adapter<CartViewHolder<Product>> {
     private final ProductListCallBack mListener;
     private final boolean mIsCart;
     private List<ItemsCart> mValues;
@@ -30,24 +30,24 @@ public class ItemsCartRecyclerViewAdapter extends RecyclerView.Adapter<CommonVie
     }
 
     @Override
-    public CommonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_shop, parent, false);
-        return new CommonViewHolder(view);
+                .inflate(R.layout.item_cart, parent, false);
+        return new CartViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final CommonViewHolder holder, final int position) {
+    public void onBindViewHolder(final CartViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
-            holder.cart.setVisibility(View.GONE);
 
 
-        holder.title.setText(mValues.get(position).getCode());
+        holder.title.setText("Codigo " + mValues.get(position).getCode());
         holder.desc.setText(mValues.get(position).getDesc());
+        holder.qty.setText(mValues.get(position).getQty() + " uds");
 
 
         String urlImage = mValues.get(position).getFoto();
-       // Glide.with(mContext).load(urlImage).into(holder.image);
+        Glide.with(mContext).load(urlImage).into(holder.image);
 
 
     }

@@ -21,24 +21,26 @@ public class ItemsCart {
     private String desc;
     private String foto;
     private double price;
-
-    public ItemsCart(String cif, String code, String desc, String foto, double price) {
+    private int qty;
+    public ItemsCart(String cif, String code, String desc, String foto, double price, int qty) {
         this.cif = cif;
         this.code = code;
         this.desc = desc;
         this.foto = foto;
         this.price = price;
+        this.qty = qty;
     }
 
-    @Generated(hash = 346944970)
-    public ItemsCart(Long id, @NotNull String cif, String code, String desc, String foto,
-            double price) {
+    @Generated(hash = 2126554988)
+    public ItemsCart(Long id, @NotNull String cif, String code, String desc, String foto, double price,
+            int qty) {
         this.id = id;
         this.cif = cif;
         this.code = code;
         this.desc = desc;
         this.foto = foto;
         this.price = price;
+        this.qty = qty;
     }
 
     @Generated(hash = 1319408305)
@@ -91,5 +93,13 @@ public class ItemsCart {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getQty() {
+        return this.qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 }

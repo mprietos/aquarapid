@@ -1,5 +1,6 @@
 package com.aquarapid.app.views.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +40,7 @@ public class CarroActivity extends BaseActivity implements ProductListCallBack {
     private static  double ivaW = 1.10;
     private static  double ivaT = 1.21;
     private  static double noT = 100; //  a partir de aqui no se paga transporte
-    private static double costeTrans = 5.9;
+    private static double costeTrans = 10; // El transporte vale 10
     private SessionHelper mSession;
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
@@ -80,10 +82,28 @@ public class CarroActivity extends BaseActivity implements ProductListCallBack {
                 ItemsCartDao itemsCartDao = daoSession.getItemsCartDao();
                 itemsCartDao.queryBuilder().where(ItemsCartDao.Properties.Cif.eq(mSession.getCIF())).buildDelete().executeDeleteWithoutDetachingEntities();
 
-                Toast.makeText(CarroActivity.this, "Compra realizada. Recibiras un email", Toast.LENGTH_LONG).show();
-                finish();
+                //Toast.makeText(CarroActivity.this, "Compra realizada. Recibiras un email", Toast.LENGTH_LONG).show();
+                // custom dialog
+                final Dialog dialog = new Dialog(CarroActivity.this);
+                dialog.setContentView(R.layout.pedidook);
+                dialog.setTitle("Pedido");
+
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        CarroActivity.this.finish();
+                    }
+                });
+
+                dialog.show();
             }
         });
+
+
     }
 
     private void loadProducts() {
@@ -111,18 +131,19 @@ public class CarroActivity extends BaseActivity implements ProductListCallBack {
             double totalC = 0;
             double totalT = 0;
             for (ItemsCart product: productList) {
-                totalC += totalC + (product.getPrice());
+                totalC += totalC + (product.getPrice() * product.getQty());
             }
-            totalC = totalC + this.ivaW;
-            totalitems.setText("Total agua (10%): " +  String.format("%.2f", totalC) );
+
+            totalitems.setText("Total agua: " + String.format("%.2f", totalC)  + "€ + 10% IVA: " +  String.format("%.2f", (totalC * this.ivaW) ) + "€" );
             if (totalC > this.noT){
                 totalT = 0;
                 totaltrans.setText("Transporte: 0");
             }else{
                 totalT = costeTrans * this.ivaT;
-                totaltrans.setText("Total transporte (21%): " + String.format("%.2f", totalT) );
+                totaltrans.setText("Total transporte 10€ + 21% IVA: " + String.format("%.2f", totalT) + "€" );
             }
-            total.setText("Total: " + String.format("%.2f", (totalC+totalT)) );
+            totalC = totalC + this.ivaW;
+            total.setText("Total: " + String.format("%.2f", (totalC+totalT)) + "€" );
 
 
             adapter = new ItemsCartRecyclerViewAdapter(getBaseContext(), productList, this, false);

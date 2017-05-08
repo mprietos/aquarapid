@@ -9,24 +9,25 @@ import android.widget.TextView;
 
 import com.aquarapid.app.R;
 
-public class AdminViewHolder<T> extends RecyclerView.ViewHolder  {
+public class CartViewHolder<T> extends RecyclerView.ViewHolder  {
     public final View mView;
+    public final ImageView image;
     public final TextView title;
     public final TextView desc;
-    public final ImageView image ;
-    public final ImageButton edit ;
-    public final ImageButton delete ;
+    public final TextView qty ;
+    public final ImageButton cart ;
+
 
     public T mItem;
 
-    public AdminViewHolder(View view) {
+    public CartViewHolder(View view) {
         super(view);
         mView = view;
+        image = (ImageView) view.findViewById(R.id.imageItem);
         desc = (TextView) view.findViewById(R.id.desc);
         title = (TextView) view.findViewById(R.id.title);
-        image = (ImageView) view.findViewById(R.id.imageItem );
-        edit = (ImageButton) view.findViewById(R.id.btnEdit );
-        delete = (ImageButton) view.findViewById(R.id.btnRemove );
+        qty = (TextView) view.findViewById(R.id.qty );
+        cart = (ImageButton) view.findViewById(R.id.btnCart );
     }
 
     @Override

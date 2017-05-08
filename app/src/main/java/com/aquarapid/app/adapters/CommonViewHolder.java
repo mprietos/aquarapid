@@ -24,7 +24,7 @@ public class CommonViewHolder<T> extends RecyclerView.ViewHolder  {
         mView = view;
         desc = (TextView) view.findViewById(R.id.desc);
         title = (TextView) view.findViewById(R.id.title);
-        image = (ImageView) view.findViewById(R.id.image );
+        image = (ImageView) view.findViewById(R.id.imageItem );
         cart = (ImageButton) view.findViewById(R.id.btnCart );
     }
 

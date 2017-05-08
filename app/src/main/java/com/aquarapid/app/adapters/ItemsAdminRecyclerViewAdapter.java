@@ -38,12 +38,12 @@ public class ItemsAdminRecyclerViewAdapter extends RecyclerView.Adapter<AdminVie
         holder.mItem = mValues.get(position);
 
 
-        holder.title.setText(mValues.get(position).getCode());
+        holder.title.setText("Codigo " + mValues.get(position).getCode());
         holder.desc.setText(mValues.get(position).getDesc());
 
 
         String urlImage = mValues.get(position).getFoto();
-      //  Glide.with(mContext).load(urlImage).into(holder.image);
+        Glide.with(mContext).load(urlImage).into(holder.image);
 
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
